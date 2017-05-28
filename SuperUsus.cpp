@@ -7,27 +7,15 @@
 using namespace std;
 float ySuper = -11;
 
-void circleSuper(float size){
-    int N = 30;
-	float pX,pY;
-	glBegin(GL_POLYGON);
-	for(int i=0;i<N;i++){
-		pX = sin(i*2*3.14/N);
-		pY = cos(i*2*3.14/N);
-		glVertex2f(pX*size,pY*size);
-	}
-	glEnd();
-}
-
 void SuperUsus(float size){
-    circleSuper(size);
+    circle(size);
 }
 
 bool tembakSuper(float position){
     if(ySuper<12){
         glPushMatrix();
             glTranslatef(position,ySuper,1);
-            circleSuper(0.5);
+            circle(0.5);
         glPopMatrix();
 
         ySuper +=1.5;

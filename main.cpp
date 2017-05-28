@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 #include <windows.h>
+#include "Util.cpp"
 #include "SuperUsus.cpp"
 using namespace std;
 float x=0;
@@ -75,20 +76,6 @@ void grid(){
 		glVertex2f(-pixelX,-pixelY+i);
 	}
 	glEnd();
-}
-
-void rectangle(float p, float l){
-    float x0 = 0-(p/2.0);
-    float y0 = 0-(l/2.0);
-    float xend = 0+(p/2.0);
-    float yend = 0+(l/2.0);
-
-    glBegin(GL_POLYGON);
-	glVertex2f(x0, y0);
-    glVertex2f(xend, y0);
-    glVertex2f(xend,yend);
-    glVertex2f(x0,yend);
-    glEnd();
 }
 
 void bgMenu(){
