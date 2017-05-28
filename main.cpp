@@ -19,12 +19,12 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
 
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
-		if(x-1<-pixelX+3)
+		if(x-1<=-pixelX+3)
 			gameOver = true;
 		else
 			x-=1;
 	}else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-		if(x+1>pixelX-3)
+		if(x+1>=pixelX-3)
 			gameOver = true;
 		else
 			x+=1;
