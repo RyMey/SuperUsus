@@ -3,21 +3,23 @@
 #include <iostream>
 #include <math.h>
 #include <windows.h>
+#include "SuperUsus.cpp"
 using namespace std;
 float x=0;
 bool play = false;
 bool gameOver = false;
+bool tembak = false;
 int pixelX = 11;
-int pixelY = 16;
+int pixelY = 12;
 int weightDisplay = 529;
-int heightDisplay = 732;
+int heightDisplay = 600;
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods) {
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
             play = true;
             gameOver = false;
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
-
+            tembak = true;
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
 		if(x-1<=-pixelX+3)
 			gameOver = true;
@@ -89,18 +91,6 @@ void rectangle(float p, float l){
     glEnd();
 }
 
-void circle(float size){
-	int N = 30;
-	float pX,pY;
-	glBegin(GL_POLYGON);
-	for(int i=0;i<N;i++){
-		pX = sin(i*2*3.14/N);
-		pY = cos(i*2*3.14/N);
-		glVertex2f(pX*size,pY*size);
-	}
-	glEnd();
-}
-
 void bgMenu(){
     glColor3ub(255,230,0);
     rectangle(weightDisplay,heightDisplay);
@@ -136,10 +126,11 @@ void display()
     }else{
         bgGamePlay();
         glColor3ub(0,0,255);
-        glPushMatrix();
-            glTranslatef(x,-8,1);
-            circle(1.0);
-        glPopMatrix();
+        gerakSuper(x,-pixelY);
+    }
+
+    if(tembak){
+      tembak = tembakSuper(x);
     }
 
     grid();
