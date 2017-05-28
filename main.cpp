@@ -9,6 +9,9 @@ bool play = false;
 bool gameOver = false;
 int pixelX = 11;
 int pixelY = 16;
+int weightDisplay = 529;
+int heightDisplay = 732;
+
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods) {
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
             play = true;
@@ -16,12 +19,12 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
 
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
-		if(x-1<-10)
+		if(x-1<-pixelX+3)
 			gameOver = true;
 		else
 			x-=1;
 	}else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-		if(x+1>10)
+		if(x+1>pixelX-3)
 			gameOver = true;
 		else
 			x+=1;
@@ -100,12 +103,26 @@ void circle(float size){
 
 void bgMenu(){
     glColor3ub(255,230,0);
-    rectangle(600,600);
+    rectangle(weightDisplay,heightDisplay);
 }
 
 void bgGameOver(){
     glColor3ub(255,0,0);
-    rectangle(600,600);
+    rectangle(weightDisplay,heightDisplay);
+}
+
+void bgGamePlay(){
+    glColor3b(40,40,40);
+    rectangle(weightDisplay,heightDisplay);
+    glColor3b(255,255,255);
+    glPushMatrix();
+        glTranslatef(-9.5,0,1);
+        rectangle(3,heightDisplay);
+    glPopMatrix();
+    glPushMatrix();
+        glTranslatef(9.5,0,1);
+        rectangle(3,heightDisplay);
+    glPopMatrix();
 }
 
 void display()
@@ -117,12 +134,15 @@ void display()
         bgMenu();
         x=0;
     }else{
+        bgGamePlay();
         glColor3ub(0,0,255);
         glPushMatrix();
             glTranslatef(x,-8,1);
             circle(1.0);
         glPopMatrix();
     }
+
+    grid();
 }
 
 int main(void)
@@ -130,7 +150,7 @@ int main(void)
     GLFWwindow* window;
     if (!glfwInit()) exit(EXIT_FAILURE);
 
-    window = glfwCreateWindow(529, 732, "Super Usus", NULL, NULL);
+    window = glfwCreateWindow(weightDisplay, heightDisplay, "Super Usus", NULL, NULL);
 
     if (!window)
     {
