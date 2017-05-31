@@ -19,7 +19,7 @@ bool tembakSuper(float position){
         glPopMatrix();
 
         ySuper +=1.5;
-        Sleep(80);
+        Sleep(50);
         return true;
     }else{
         ySuper=-11;

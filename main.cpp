@@ -6,7 +6,7 @@
 #include "Util.cpp"
 #include "SuperUsus.cpp"
 using namespace std;
-float x=0;
+float x=0,xTembak;
 bool play = false;
 bool gameOver = false;
 bool tembak = false;
@@ -19,8 +19,9 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
             play = true;
             gameOver = false;
-    }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
+    }else if(key==GLFW_KEY_UP && action == GLFW_PRESS && !tembak) {
             tembak = true;
+            xTembak = x;
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
 		if(x-1<=-pixelX+3)
 			gameOver = true;
@@ -117,7 +118,7 @@ void display()
     }
 
     if(tembak){
-      tembak = tembakSuper(x);
+      tembak = tembakSuper(xTembak);
     }
 
     grid();
