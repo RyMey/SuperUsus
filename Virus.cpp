@@ -5,32 +5,34 @@
 #include <windows.h>
 #include <conio.h>
 using namespace std;
-float ySuper = -11;
+float yVirus = 11;
 
-void SuperUsus(float size){
-    glColor3ub(0,0,255);
+void Virus(float size){
+    glColor3ub(255,0,0);
     circle(size);
 }
 
-bool tembakSuper(float position){
-    if(ySuper<12){
+bool tembakVirus(float position){
+    if(yVirus<12){
         glPushMatrix();
-            glTranslatef(position,ySuper,1);
+            glTranslatef(position,yVirus,1);
             circle(0.5);
         glPopMatrix();
 
-        ySuper +=1.5;
+        yVirus +=1.5;
         Sleep(50);
         return true;
     }else{
-        ySuper=-11;
+        yVirus=-11;
         return false;
     }
 }
 
-void gerakSuper(float x,float y){
+void addVirus(float x){
     glPushMatrix();
-            glTranslatef(x,y+1.5,1);
-            SuperUsus(1.5);
+            glTranslatef(x,yVirus+1.5,1);
+            Virus(1.5);
     glPopMatrix();
+    yVirus--;
 }
+

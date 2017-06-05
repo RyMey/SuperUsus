@@ -5,6 +5,7 @@
 #include <windows.h>
 #include "Util.cpp"
 #include "SuperUsus.cpp"
+#include "Virus.cpp"
 using namespace std;
 float x=0,xTembak;
 bool play = false;
@@ -15,7 +16,7 @@ int pixelY = 12;
 int weightDisplay = 529;
 int heightDisplay = 600;
 
-void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods) {
+void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
             play = true;
             gameOver = false;
@@ -37,8 +38,7 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 	}
 }
 
-void setup_viewport(GLFWwindow* window)
-{
+void setup_viewport(GLFWwindow* window){
     float ratio;
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
@@ -103,8 +103,7 @@ void bgGamePlay(){
     glPopMatrix();
 }
 
-void display()
-{
+void display(){
     if(gameOver){
         bgGameOver();
         x=0;
@@ -113,12 +112,11 @@ void display()
         x=0;
     }else{
         bgGamePlay();
-        glColor3ub(0,0,255);
+        if(tembak){
+          tembak = tembakSuper(xTembak);
+        }
         gerakSuper(x,-pixelY);
-    }
-
-    if(tembak){
-      tembak = tembakSuper(xTembak);
+        addVirus();
     }
 
     grid();
