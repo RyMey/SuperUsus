@@ -92,19 +92,20 @@ void iconStart(){
         glBindTexture (GL_TEXTURE_2D, 1);
             glBegin(GL_POLYGON);
                 glTexCoord2f(0, 0);
-                glVertex3f(-3, -3, 0);
+                glVertex3f(-8, -8, 0);
                 glTexCoord2f(1, 0);
-                glVertex3f(3, -3, 0);
+                glVertex3f(8, -8, 0);
                 glTexCoord2f(1, 1);
-                glVertex3f(3, 3, 0);
+                glVertex3f(8, 8, 0);
                 glTexCoord2f(0, 1);
-                glVertex3f(-3, 3, 0);
+                glVertex3f(-8, 8, 0);
             glEnd();
         glEnd();
     glDisable(GL_TEXTURE_2D);
 
 }
 void bgMenu(){
+    glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
         glBindTexture (GL_TEXTURE_2D, 0);
             glBegin(GL_POLYGON);
