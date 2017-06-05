@@ -4,7 +4,8 @@
 #include <iostream>
 #include <math.h>
 #include <windows.h>
-#include <glut.h>
+#include <GL/glut.h>
+#include <GL/glu.h>
 #include "lib/tga.h"
 #include "lib/tga.c"
 #include "Util.cpp"
@@ -19,6 +20,22 @@ int pixelX = 11;
 int pixelY = 12;
 int weightDisplay = 529;
 int heightDisplay = 600;
+int num=0;
+
+void renderBitmapString(char *str){
+    int len;
+    glColor4f(1.0,1.0,1.0,1.0);
+
+    glRasterPos2i(0,0);
+
+    glDisable(GL_TEXTURE);
+    glDisable(GL_TEXTURE_2D);
+    for(int i=0,len = strlen(str);i<len;i++){
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
+    }
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE);
+}
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
@@ -59,6 +76,7 @@ void setup_viewport(GLFWwindow* window){
 
 void tekstur(){
     load_bmp("texture/bg_start.bmp", 0);
+    load_bmp("texture/ic_play.bmp", 1);
 }
 
 void grid(){
@@ -87,6 +105,26 @@ void grid(){
 	glEnd();
 }
 
+void buttonEnter(){
+    glColor3ub(0,0,0);
+    rectangle(weightDisplay,2);
+
+    glColor3ub(255,255,255);
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture (GL_TEXTURE_2D, 1);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-pixelX, -1, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(pixelX, -1, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(pixelX, 1, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-pixelX, 1, 0);
+            glEnd();
+    glEnd();
+}
+
 void bgMenu(){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
@@ -102,6 +140,20 @@ void bgMenu(){
                 glVertex3f(-pixelX, pixelY, 0);
             glEnd();
         glEnd();
+
+    if(num%3!=0){
+        glPushMatrix();
+            glTranslated(0,-7,0);
+            buttonEnter();
+        glPopMatrix();
+
+        Sleep(800);
+    }
+
+    glPushMatrix();
+        glTranslated(-3,-10,0);
+        renderBitmapString("Press ESC to Exit");
+    glPopMatrix();
 
 }
 
@@ -131,6 +183,7 @@ void display(){
         x=0;
     }else if(!play){
         bgMenu();
+        num++;
         x=0;
     }else{
         bgGamePlay();
