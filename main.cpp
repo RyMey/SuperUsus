@@ -1,8 +1,11 @@
+//supersus
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
 #include <windows.h>
+#include "lib/tga.h"
+#include "lib/tga.c"
 #include "Util.cpp"
 #include "SuperUsus.cpp"
 #include "Virus.cpp"
@@ -53,6 +56,11 @@ void setup_viewport(GLFWwindow* window){
     glLoadIdentity();
 }
 
+void tekstur(){
+    load_bmp("texture/bg_start.bmp", 0);
+    load_bmp("texture/ic_su_start.bmp", 1);
+}
+
 void grid(){
     //vertikal
 	glBegin(GL_LINES);
@@ -79,9 +87,41 @@ void grid(){
 	glEnd();
 }
 
+void iconStart(){
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture (GL_TEXTURE_2D, 1);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-3, -3, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(3, -3, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(3, 3, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-3, 3, 0);
+            glEnd();
+        glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+}
 void bgMenu(){
-    glColor3ub(255,230,0);
-    rectangle(weightDisplay,heightDisplay);
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture (GL_TEXTURE_2D, 0);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-pixelX, -pixelY, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(pixelX, -pixelY, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(pixelX, pixelY, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-pixelX, pixelY, 0);
+            glEnd();
+        glEnd();
+    glDisable(GL_TEXTURE_2D);
+
+    iconStart();
+
 }
 
 void bgGameOver(){
@@ -104,6 +144,7 @@ void bgGamePlay(){
 }
 
 void display(){
+    tekstur();
     if(gameOver){
         bgGameOver();
         x=0;
@@ -116,10 +157,9 @@ void display(){
           tembak = tembakSuper(xTembak);
         }
         gerakSuper(x,-pixelY);
-        addVirus();
     }
 
-    grid();
+   // grid();
 }
 
 int main(void)
@@ -137,7 +177,11 @@ int main(void)
 
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
-    glfwSetKeyCallback(window,processNormalKeys);
+    glfwSetKeyCallback(window, processNormalKeys);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_POLYGON_SMOOTH);
+    glEnable(GL_POINT_SMOOTH);
 
     while (!glfwWindowShouldClose(window))
     {
