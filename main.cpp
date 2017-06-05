@@ -4,6 +4,7 @@
 #include <iostream>
 #include <math.h>
 #include <windows.h>
+#include <glut.h>
 #include "lib/tga.h"
 #include "lib/tga.c"
 #include "Util.cpp"
@@ -58,7 +59,6 @@ void setup_viewport(GLFWwindow* window){
 
 void tekstur(){
     load_bmp("texture/bg_start.bmp", 0);
-    load_bmp("texture/ic_su_start.bmp", 1);
 }
 
 void grid(){
@@ -87,23 +87,6 @@ void grid(){
 	glEnd();
 }
 
-void iconStart(){
-    glEnable(GL_TEXTURE_2D);
-        glBindTexture (GL_TEXTURE_2D, 1);
-            glBegin(GL_POLYGON);
-                glTexCoord2f(0, 0);
-                glVertex3f(-8, -8, 0);
-                glTexCoord2f(1, 0);
-                glVertex3f(8, -8, 0);
-                glTexCoord2f(1, 1);
-                glVertex3f(8, 8, 0);
-                glTexCoord2f(0, 1);
-                glVertex3f(-8, 8, 0);
-            glEnd();
-        glEnd();
-    glDisable(GL_TEXTURE_2D);
-
-}
 void bgMenu(){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
@@ -119,9 +102,6 @@ void bgMenu(){
                 glVertex3f(-pixelX, pixelY, 0);
             glEnd();
         glEnd();
-    glDisable(GL_TEXTURE_2D);
-
-    iconStart();
 
 }
 
@@ -159,8 +139,6 @@ void display(){
         }
         gerakSuper(x,-pixelY);
     }
-
-   // grid();
 }
 
 int main(void)
