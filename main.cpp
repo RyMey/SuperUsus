@@ -106,9 +106,6 @@ void grid(){
 }
 
 void buttonEnter(){
-    glColor3ub(0,0,0);
-    rectangle(weightDisplay,2);
-
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
         glBindTexture (GL_TEXTURE_2D, 1);
@@ -147,11 +144,11 @@ void bgMenu(){
             buttonEnter();
         glPopMatrix();
 
-        Sleep(800);
+        Sleep(750);
     }
 
     glPushMatrix();
-        glTranslated(-3,-10,0);
+        glTranslated(-3.5,-10,0);
         renderBitmapString("Press ESC to Exit");
     glPopMatrix();
 
