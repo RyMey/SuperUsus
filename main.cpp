@@ -19,6 +19,7 @@ float x=0,xTembak;
 bool play = false;
 bool gameOver = false;
 bool tembak = false;
+bool isPrint = false;
 int pixelX = 11;
 int pixelY = 12;
 int weightDisplay = 529;
@@ -26,7 +27,7 @@ int heightDisplay = 600;
 int num=0;
 int score = 0;
 int highScore = 0;
-stringstream ss;
+stringstream ss,hs;
 
 void renderBitmapString(string str,int font){
     int len;
@@ -158,18 +159,22 @@ void bgGameOver(){
         Sleep(750);
     }
 
-    ss << "Score :  " << score;
+    if(!isPrint){
+        ss << "Score :  " << score;
+        hs << "High Score :  " << highScore;
+        isPrint = true;
+    }
+
     glPushMatrix();
             glTranslated(-4.5,-6,0);
             glColor3ub(255,255,255);
             renderBitmapString(ss.str() ,3);
     glPopMatrix();
 
-    ss << "High Score :  " << highScore;
     glPushMatrix();
             glTranslated(-4.5,-7.5,0);
             glColor3ub(255,255,255);
-            renderBitmapString(ss.str(),3);
+            renderBitmapString(hs.str(),3);
     glPopMatrix();
 
     glPushMatrix();
@@ -217,6 +222,9 @@ void display(){
         bgMenu();
         x=0;
     }else{
+        isPrint = false;
+        ss.clear();
+        hs.clear();
         bgGamePlay();
         if(tembak){
           tembak = tembakSuper(xTembak);
