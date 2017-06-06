@@ -1,11 +1,14 @@
 //supersus
 #include <GLFW/glfw3.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
 #include <math.h>
 #include <windows.h>
 #include <GL/glut.h>
 #include <GL/glu.h>
+#include <sstream>
+#include <string>
 #include "lib/tga.h"
 #include "lib/tga.c"
 #include "Util.cpp"
@@ -23,14 +26,15 @@ int heightDisplay = 600;
 int num=0;
 int score = 0;
 int highScore = 0;
+stringstream ss;
 
-void renderBitmapString(char *str,int font){
+void renderBitmapString(string str,int font){
     int len;
     glRasterPos2i(0,0);
 
     glDisable(GL_TEXTURE);
     glDisable(GL_TEXTURE_2D);
-    for(int i=0,len = strlen(str);i<len;i++){
+    for(int i=0,len = str.size();i<len;i++){
         if(font==1)
             glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
         else if(font==2)
@@ -82,6 +86,7 @@ void setup_viewport(GLFWwindow* window){
 void tekstur(){
     load_bmp("texture/bg_start.bmp", 0);
     load_bmp("texture/bg_gameOver.bmp", 1);
+    load_bmp("texture/bg_rectPlay.bmp", 2);
 }
 
 void grid(){
@@ -153,16 +158,18 @@ void bgGameOver(){
         Sleep(750);
     }
 
+    ss << "Score :  " << score;
     glPushMatrix();
             glTranslated(-4.5,-6,0);
             glColor3ub(255,255,255);
-            renderBitmapString("Score : ",3);
+            renderBitmapString(ss.str() ,3);
     glPopMatrix();
 
+    ss << "High Score :  " << highScore;
     glPushMatrix();
             glTranslated(-4.5,-7.5,0);
             glColor3ub(255,255,255);
-            renderBitmapString("High Score : ",3);
+            renderBitmapString(ss.str(),3);
     glPopMatrix();
 
     glPushMatrix();
@@ -172,17 +179,31 @@ void bgGameOver(){
     glPopMatrix();
 }
 
+void bgRectanglePlay(){
+    glColor3ub(255,255,255);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture (GL_TEXTURE_2D, 2);
+        glBegin(GL_POLYGON);
+            glTexCoord2f(0, 0);
+            glVertex3f(-pixelX, -pixelY, 0);
+            glTexCoord2f(1, 0);
+            glVertex3f(-pixelX+3, -pixelY, 0);
+            glTexCoord2f(1, 1);
+            glVertex3f(-pixelX+3, pixelY, 0);
+            glTexCoord2f(0, 1);
+            glVertex3f(-pixelX, pixelY, 0);
+        glEnd();
+    glEnd();
+}
+
 void bgGamePlay(){
-    glColor3b(40,40,40);
     rectangle(weightDisplay,heightDisplay);
     glColor3b(255,255,255);
+
+    bgRectanglePlay();
     glPushMatrix();
-        glTranslatef(-9.5,0,1);
-        rectangle(3,heightDisplay);
-    glPopMatrix();
-    glPushMatrix();
-        glTranslatef(9.5,0,1);
-        rectangle(3,heightDisplay);
+        glTranslatef(2*pixelX-3,0,0);
+        bgRectanglePlay();
     glPopMatrix();
 }
 
