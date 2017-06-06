@@ -14,6 +14,7 @@ checkSize
 Make sure its a power of 2.
 =============
 */
+int colorTotalByte;
 int checkSize (int x)
 {
     if (x == 2	 || x == 4 ||
@@ -240,10 +241,16 @@ void load_bmp(char *filename, unsigned int texture_id) {
 
     fread(&imwidth, 4, 1, file);
     fread(&imheight, 4, 1, file);
-    size = imwidth * imheight * 3;
 
-    fread(&planes, 2, 1, file);
+    if(bpp=24)
+        colorTotalByte = 3;
+    else
+        colorTotalByte = 4;
+
+    size = imwidth * imheight * colorTotalByte;
+
     fread(&bpp, 2, 1, file);
+    fread(&planes, 2, 1, file);
 
     fseek(file, 24, SEEK_CUR);
     imdata = (char *)malloc(size);
@@ -251,7 +258,7 @@ void load_bmp(char *filename, unsigned int texture_id) {
     fread(imdata, size, 1, file);
 
 	char temp;
-    for(long i = 0; i < size; i+=3){
+    for(long i = 0; i < size; i+=colorTotalByte){
         temp = imdata[i];
         imdata[i] = imdata[i+2];
         imdata[i+2] = temp;
@@ -267,7 +274,7 @@ void load_bmp(char *filename, unsigned int texture_id) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imwidth, imheight, 0, GL_RGB, GL_UNSIGNED_BYTE, imdata);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imwidth, imheight, 0, (bpp=24?GL_RGB:GL_RGBA), GL_UNSIGNED_BYTE, imdata);
 
     free(imdata); // free the texture
 }
