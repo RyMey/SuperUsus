@@ -51,9 +51,13 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
             play = true;
             gameOver = false;
+            mciSendString("stop sounds/main.mp3",NULL,NULL,NULL);
+            mciSendString("stop sounds/over.mp3",NULL,NULL,NULL);
+            mciSendString("play sounds/start.mp3",NULL,NULL,NULL);
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS && !tembak) {
             tembak = true;
             xTembak = x;
+            mciSendString("play sounds/peluruSu.wav",NULL,NULL,NULL);
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
 		if(x-1<=-pixelX+3)
 			gameOver = true;
@@ -131,6 +135,8 @@ void bgMenu(){
             glVertex3f(-pixelX, pixelY, 0);
         glEnd();
     glEnd();
+    mciSendString("play sounds/main.mp3",NULL,NULL,NULL);
+
 }
 
 void bgGameOver(){
@@ -148,7 +154,8 @@ void bgGameOver(){
             glVertex3f(-pixelX, pixelY, 0);
         glEnd();
     glEnd();
-
+    mciSendString("stop sounds/start.mp3",NULL,NULL,NULL);
+    mciSendString("play sounds/over.mp3",NULL,NULL,NULL);
     if(num%3!=0){
         glPushMatrix();
             glTranslated(-4.5,-4,0);
