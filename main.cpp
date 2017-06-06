@@ -28,12 +28,26 @@ int score = 0;
 int highScore = 0;
 char buffer[50];
 int nyawa = 3;
+FILE *highScoreFile;
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS && !play){
             play = true;
             gameOver = false;
             score = 0;
+
+            highScoreFile = fopen("highScoreFile.txt","r");
+                if (highScoreFile == NULL){
+                    fclose(highScoreFile);
+                    highScoreFile = fopen("highScoreFile.txt","w");
+                    fprintf(highScoreFile,"%d",0);
+                    fclose(highScoreFile);
+                    highScoreFile = fopen("highScoreFile.txt","r");
+
+                }
+                fscanf(highScoreFile,"%d",&highScore);
+            fclose(highScoreFile);
+
             mciSendString("stop sounds/main.mp3",NULL,NULL,NULL);
             mciSendString("stop sounds/over.mp3",NULL,NULL,NULL);
             mciSendString("play sounds/start.mp3",NULL,NULL,NULL);
@@ -228,8 +242,12 @@ void getScore(){
             renderBitmapString("High Score ",0);
     glPopMatrix();
 
-    if(score>highScore)
+    if(score>highScore){
         highScore = score;
+        highScoreFile = fopen("highScoreFile.txt","w");
+            fprintf(highScoreFile,"%d",highScore);
+        fclose(highScoreFile);
+    }
 
     sprintf(buffer,"%d",highScore);
     glPushMatrix();
