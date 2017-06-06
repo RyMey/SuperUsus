@@ -242,8 +242,8 @@ void load_bmp(char *filename, unsigned int texture_id) {
     fread(&imheight, 4, 1, file);
     size = imwidth * imheight * 3;
 
-    fread(&bpp, 2, 1, file);
     fread(&planes, 2, 1, file);
+    fread(&bpp, 2, 1, file);
 
     fseek(file, 24, SEEK_CUR);
     imdata = (char *)malloc(size);

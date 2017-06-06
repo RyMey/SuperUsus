@@ -14,30 +14,33 @@
 #include "Util.cpp"
 #include "SuperUsus.cpp"
 using namespace std;
-float x=0,xTembak;
+float x=0; //untuk gerakan/posisi x milik super usus
+float xTembak; //untuk tembakan agar tetap lurus
 bool play = false;
 bool gameOver = false;
 bool tembak = false;
-bool isPrint = false;
 int pixelX = 11;
 int pixelY = 12;
 int weightDisplay = 529;
 int heightDisplay = 600;
-int num=0;
+int num=0; //untuk kedip2 "press enter" di gameOver
 int score = 0;
 int highScore = 0;
-stringstream ss,hs;
+char buffer[50];
+int nyawa = 3;
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
-	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
+	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS && !play){
             play = true;
             gameOver = false;
+            score = 0;
             mciSendString("stop sounds/main.mp3",NULL,NULL,NULL);
             mciSendString("stop sounds/over.mp3",NULL,NULL,NULL);
             mciSendString("play sounds/start.mp3",NULL,NULL,NULL);
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS && !tembak) {
             tembak = true;
             xTembak = x;
+            score++;
             mciSendString("play sounds/peluruSu.wav",NULL,NULL,NULL);
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
 		if(x-1>=-pixelX+4)
@@ -47,6 +50,10 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 			x+=1;
 	}else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, GL_TRUE);
+	}else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS) {
+		nyawa--;
+		if(nyawa==0)
+            gameOver = true;
 	}
 }
 
@@ -136,23 +143,18 @@ void bgGameOver(){
 
         Sleep(750);
     }
-
-    if(!isPrint){
-        ss << "Score :  " << score;
-        hs << "High Score :  " << highScore;
-        isPrint = true;
-    }
-
+    sprintf(buffer,"Score : %d",score);
     glPushMatrix();
             glTranslated(-4.5,-6,0);
             glColor3ub(255,255,255);
-            renderBitmapString(ss.str() ,3);
+            renderBitmapString(buffer ,3);
     glPopMatrix();
 
+    sprintf(buffer,"High Score : %d",highScore);
     glPushMatrix();
             glTranslated(-4.5,-7.5,0);
             glColor3ub(255,255,255);
-            renderBitmapString(hs.str(),3);
+            renderBitmapString(buffer,3);
     glPopMatrix();
 
     glPushMatrix();
@@ -204,13 +206,47 @@ void bgGamePlay(){
     glEnd();
 }
 
+void getScore(){
+     glPushMatrix();
+            glTranslated(-10.5,11,0);
+            glColor3ub(255,255,255);
+            renderBitmapString("Score ",2);
+    glPopMatrix();
+
+    sprintf(buffer,"%d",score);
+    glPushMatrix();
+            glTranslated(score>=10? (-9.5-(getDigit(score)/2.0)):-10,10,0);
+            glColor3ub(255,255,255);
+            renderBitmapString(buffer ,4);
+    glPopMatrix();
+
+    glPushMatrix();
+            glTranslated(-10.8,7.5,0);
+            glColor3ub(236,203,255);
+            renderBitmapString("High Score ",0);
+    glPopMatrix();
+
+    if(score>highScore)
+        highScore = score;
+
+    sprintf(buffer,"%d",highScore);
+    glPushMatrix();
+            glTranslated(highScore>=10? (-9.5-(getDigit(highScore)/2.0)):-10,6.5,0);
+             glColor3ub(236,203,255);
+            renderBitmapString(buffer ,3);
+    glPopMatrix();
+}
+
 void display(){
     tekstur();
     if(gameOver){
         num++;
+        play = false;
         bgGameOver();
         x=0;
     }else if(!play){
+        play = false;
+        gameOver = false;
         bgMenu();
         x=0;
     }else{
@@ -223,15 +259,16 @@ void display(){
         bgRectanglePlay(0);
         glPushMatrix();
             glTranslatef(2*pixelX-2.5,0,0);
-            bgRectanglePlay(3);
+            bgRectanglePlay(nyawa);
         glPopMatrix();
+
+        getScore();
     }
 
     //grid();
 }
 
-int main(void)
-{
+int main(void){
     GLFWwindow* window;
     if (!glfwInit()) exit(EXIT_FAILURE);
 

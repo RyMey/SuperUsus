@@ -7,12 +7,16 @@ void renderBitmapString(string str,int font){
     glDisable(GL_TEXTURE);
     glDisable(GL_TEXTURE_2D);
     for(int i=0,len = str.size();i<len;i++){
-        if(font==1)
+        if(font==0)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_10,(int)str[i]);
+        else if(font==1)
             glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
         else if(font==2)
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12,(int)str[i]);
         else if(font==3)
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,(int)str[i]);
+        else if(font==4)
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,(int)str[i]);
     }
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE);
@@ -27,6 +31,16 @@ void tekstur(){
     load_bmp("texture/bg_nyawa3.bmp", 5);
     load_bmp("texture/ic_su.bmp", 6);
     load_bmp("texture/bg_play.bmp", 7);
+}
+
+double getDigit(int no){
+    double a=0;
+    while(no>0)
+    {
+        no=no/10;
+        a++;
+    }
+    return a;
 }
 
 void circle(float size){
