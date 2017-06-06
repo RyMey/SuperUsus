@@ -31,7 +31,6 @@ void tekstur(){
     load_bmp("texture/bg_nyawa3.bmp", 5);
     load_bmp("texture/ic_su.bmp", 6);
     load_bmp("texture/bg_play.bmp", 7);
-    load_bmp("texture/ic_su_start.bmp", 8);
 }
 
 double getDigit(int no){

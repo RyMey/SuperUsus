@@ -115,21 +115,6 @@ void bgMenu(){
             glEnd();
         glEnd();
     glDisable(GL_TEXTURE_2D);
-
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture (GL_TEXTURE_2D, 8);
-    glBegin(GL_POLYGON);
-        glTexCoord2f(0, 0);
-        glVertex3f(-3, -3, 0);
-        glTexCoord2f(1, 0);
-        glVertex3f(3, -3, 0);
-        glTexCoord2f(1, 1);
-        glVertex3f(3, 3, 0);
-        glTexCoord2f(0, 1);
-        glVertex3f(-3, 3, 0);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);
-
     mciSendString("play sounds/main.mp3",NULL,NULL,NULL);
 }
 
