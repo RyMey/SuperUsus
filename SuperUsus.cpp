@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <conio.h>
 using namespace std;
-float ySuper = -11;
+float ySuper = -6;
 float ySuperP = 11;
 
 void SuperUsus(){
@@ -14,13 +14,13 @@ void SuperUsus(){
     glBindTexture (GL_TEXTURE_2D, 6);
         glBegin(GL_POLYGON);
             glTexCoord2f(0, 0);
-            glVertex3f(0, -ySuperP, 0);
+            glVertex3f(-1.75, -ySuperP, 0);
             glTexCoord2f(1, 0);
-            glVertex3f(3.5, -ySuperP, 0);
+            glVertex3f(1.75, -ySuperP, 0);
             glTexCoord2f(1, 1);
-            glVertex3f(3.5, -ySuperP+5, 0);
+            glVertex3f(1.75, -ySuperP+5, 0);
             glTexCoord2f(0, 1);
-            glVertex3f(0,-ySuperP+5, 0);
+            glVertex3f(-1.75,-ySuperP+5, 0);
         glEnd();
     glEnd();
 }
@@ -29,6 +29,7 @@ bool tembakSuper(float position){
     if(ySuper<12){
         glPushMatrix();
             glTranslatef(position,ySuper,1);
+            glColor3ub(162,94,154);
             circle(0.5);
         glPopMatrix();
 
@@ -36,14 +37,14 @@ bool tembakSuper(float position){
         Sleep(50);
         return true;
     }else{
-        ySuper=-11;
+        ySuper=-6;
         return false;
     }
 }
 
 void gerakSuper(float x,float y){
     glPushMatrix();
-            glTranslatef(x,y,1);
-            SuperUsus();
+        glTranslatef(x,y,1);
+        SuperUsus();
     glPopMatrix();
 }

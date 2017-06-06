@@ -40,14 +40,10 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
             xTembak = x;
             mciSendString("play sounds/peluruSu.wav",NULL,NULL,NULL);
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
-		if(x-1<=-pixelX+3)
-			gameOver = true;
-		else
+		if(x-1>=-pixelX+4)
 			x-=1;
 	}else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-		if(x+1>=pixelX-3)
-			gameOver = true;
-		else
+		if(x+1<=pixelX-4)
 			x+=1;
 	}else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, GL_TRUE);
@@ -206,12 +202,6 @@ void bgGamePlay(){
             glVertex3f(-pixelX, pixelY, 0);
         glEnd();
     glEnd();
-
-    bgRectanglePlay(0);
-    glPushMatrix();
-        glTranslatef(2*pixelX-2.5,0,0);
-        bgRectanglePlay(3);
-    glPopMatrix();
 }
 
 void display(){
@@ -229,7 +219,15 @@ void display(){
           tembak = tembakSuper(xTembak);
         }
         gerakSuper(x,-1);
+
+        bgRectanglePlay(0);
+        glPushMatrix();
+            glTranslatef(2*pixelX-2.5,0,0);
+            bgRectanglePlay(3);
+        glPopMatrix();
     }
+
+    //grid();
 }
 
 int main(void)
