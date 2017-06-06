@@ -4,6 +4,8 @@
 #include <string.h>
 #include <windows.h>
 #include <gl/gl.h>
+#include <iostream>
+using namespace std;
 
 GLenum texFormat;
 
@@ -239,18 +241,19 @@ void load_bmp(char *filename, unsigned int texture_id) {
     };
     fseek(file, 18, SEEK_CUR);
 
-    fread(&imwidth, 4, 1, file);
-    fread(&imheight, 4, 1, file);
 
-    if(bpp=24)
+    fread(&imwidth, 4, 1, file);
+	fread(&imheight, 4, 1, file);
+	fread(&planes, 2, 1, file);
+	fread(&bpp, 2, 1, file);
+
+
+    if(bpp==24)
         colorTotalByte = 3;
     else
         colorTotalByte = 4;
 
     size = imwidth * imheight * colorTotalByte;
-
-    fread(&bpp, 2, 1, file);
-    fread(&planes, 2, 1, file);
 
     fseek(file, 24, SEEK_CUR);
     imdata = (char *)malloc(size);
@@ -274,7 +277,10 @@ void load_bmp(char *filename, unsigned int texture_id) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imwidth, imheight, 0, (bpp=24?GL_RGB:GL_RGBA), GL_UNSIGNED_BYTE, imdata);
+    if(bpp==24)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imwidth, imheight, 0, GL_RGB, GL_UNSIGNED_BYTE, imdata);
+    else
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imwidth, imheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imdata);
 
     free(imdata); // free the texture
 }
