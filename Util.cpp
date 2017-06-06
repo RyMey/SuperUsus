@@ -1,3 +1,34 @@
+#include <string>
+using namespace std;
+void renderBitmapString(string str,int font){
+    int len;
+    glRasterPos2i(0,0);
+
+    glDisable(GL_TEXTURE);
+    glDisable(GL_TEXTURE_2D);
+    for(int i=0,len = str.size();i<len;i++){
+        if(font==1)
+            glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
+        else if(font==2)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12,(int)str[i]);
+        else if(font==3)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,(int)str[i]);
+    }
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE);
+}
+
+void tekstur(){
+    load_bmp("texture/bg_menu.bmp", 0);
+    load_bmp("texture/bg_gameOver.bmp", 1);
+    load_bmp("texture/bg_rectPlay.bmp", 2);
+    load_bmp("texture/bg_nyawa1.bmp", 3);
+    load_bmp("texture/bg_nyawa2.bmp", 4);
+    load_bmp("texture/bg_nyawa3.bmp", 5);
+    load_bmp("texture/ic_su.bmp", 6);
+    load_bmp("texture/bg_play.bmp", 7);
+}
+
 void circle(float size){
     int N = 30;
 	float pX,pY;

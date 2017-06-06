@@ -6,10 +6,23 @@
 #include <conio.h>
 using namespace std;
 float ySuper = -11;
+float ySuperP = 11;
 
-void SuperUsus(float size){
-    glColor3ub(0,0,255);
-    circle(size);
+void SuperUsus(){
+    glColor3ub(255,255,255);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture (GL_TEXTURE_2D, 6);
+        glBegin(GL_POLYGON);
+            glTexCoord2f(0, 0);
+            glVertex3f(0, -ySuperP, 0);
+            glTexCoord2f(1, 0);
+            glVertex3f(3.5, -ySuperP, 0);
+            glTexCoord2f(1, 1);
+            glVertex3f(3.5, -ySuperP+5, 0);
+            glTexCoord2f(0, 1);
+            glVertex3f(0,-ySuperP+5, 0);
+        glEnd();
+    glEnd();
 }
 
 bool tembakSuper(float position){
@@ -30,7 +43,7 @@ bool tembakSuper(float position){
 
 void gerakSuper(float x,float y){
     glPushMatrix();
-            glTranslatef(x,y+1.5,1);
-            SuperUsus(1.5);
+            glTranslatef(x,y,1);
+            SuperUsus();
     glPopMatrix();
 }

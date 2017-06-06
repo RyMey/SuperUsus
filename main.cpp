@@ -13,7 +13,6 @@
 #include "lib/tga.c"
 #include "Util.cpp"
 #include "SuperUsus.cpp"
-#include "Virus.cpp"
 using namespace std;
 float x=0,xTembak;
 bool play = false;
@@ -28,24 +27,6 @@ int num=0;
 int score = 0;
 int highScore = 0;
 stringstream ss,hs;
-
-void renderBitmapString(string str,int font){
-    int len;
-    glRasterPos2i(0,0);
-
-    glDisable(GL_TEXTURE);
-    glDisable(GL_TEXTURE_2D);
-    for(int i=0,len = str.size();i<len;i++){
-        if(font==1)
-            glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
-        else if(font==2)
-            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12,(int)str[i]);
-        else if(font==3)
-            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,(int)str[i]);
-    }
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_TEXTURE);
-}
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
 	if(key==GLFW_KEY_ENTER && action == GLFW_PRESS){
@@ -82,12 +63,6 @@ void setup_viewport(GLFWwindow* window){
     glOrtho(-pixelX, pixelX, -pixelY, pixelY, 1000.f, -1000.f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-}
-
-void tekstur(){
-    load_bmp("texture/bg_start.bmp", 0);
-    load_bmp("texture/bg_gameOver.bmp", 1);
-    load_bmp("texture/bg_rectPlay.bmp", 2);
 }
 
 void grid(){
@@ -184,17 +159,25 @@ void bgGameOver(){
     glPopMatrix();
 }
 
-void bgRectanglePlay(){
+void bgRectanglePlay(int i){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture (GL_TEXTURE_2D, 2);
+    if(i==0)
+        glBindTexture (GL_TEXTURE_2D, 2);
+    else if(i==1)
+        glBindTexture (GL_TEXTURE_2D, 3);
+    else if(i==2)
+        glBindTexture (GL_TEXTURE_2D, 4);
+    else if(i==3)
+        glBindTexture (GL_TEXTURE_2D, 5);
+
         glBegin(GL_POLYGON);
             glTexCoord2f(0, 0);
             glVertex3f(-pixelX, -pixelY, 0);
             glTexCoord2f(1, 0);
-            glVertex3f(-pixelX+3, -pixelY, 0);
+            glVertex3f(-pixelX+2.5, -pixelY, 0);
             glTexCoord2f(1, 1);
-            glVertex3f(-pixelX+3, pixelY, 0);
+            glVertex3f(-pixelX+2.5, pixelY, 0);
             glTexCoord2f(0, 1);
             glVertex3f(-pixelX, pixelY, 0);
         glEnd();
@@ -202,13 +185,25 @@ void bgRectanglePlay(){
 }
 
 void bgGamePlay(){
-    rectangle(weightDisplay,heightDisplay);
-    glColor3b(255,255,255);
+    glColor3ub(255,255,255);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture (GL_TEXTURE_2D, 7);
+        glBegin(GL_POLYGON);
+            glTexCoord2f(0, 0);
+            glVertex3f(-pixelX, -pixelY, 0);
+            glTexCoord2f(1, 0);
+            glVertex3f(pixelX, -pixelY, 0);
+            glTexCoord2f(1, 1);
+            glVertex3f(pixelX, pixelY, 0);
+            glTexCoord2f(0, 1);
+            glVertex3f(-pixelX, pixelY, 0);
+        glEnd();
+    glEnd();
 
-    bgRectanglePlay();
+    bgRectanglePlay(0);
     glPushMatrix();
-        glTranslatef(2*pixelX-3,0,0);
-        bgRectanglePlay();
+        glTranslatef(2*pixelX-2.5,0,0);
+        bgRectanglePlay(3);
     glPopMatrix();
 }
 
@@ -222,14 +217,11 @@ void display(){
         bgMenu();
         x=0;
     }else{
-        isPrint = false;
-        ss.clear();
-        hs.clear();
         bgGamePlay();
         if(tembak){
           tembak = tembakSuper(xTembak);
         }
-        gerakSuper(x,-pixelY);
+        gerakSuper(x,-1);
     }
 }
 
