@@ -21,17 +21,22 @@ int pixelY = 12;
 int weightDisplay = 529;
 int heightDisplay = 600;
 int num=0;
+int score = 0;
+int highScore = 0;
 
-void renderBitmapString(char *str){
+void renderBitmapString(char *str,int font){
     int len;
-    glColor4f(1.0,1.0,1.0,1.0);
-
     glRasterPos2i(0,0);
 
     glDisable(GL_TEXTURE);
     glDisable(GL_TEXTURE_2D);
     for(int i=0,len = strlen(str);i<len;i++){
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
+        if(font==1)
+            glutBitmapCharacter(GLUT_BITMAP_9_BY_15,(int)str[i]);
+        else if(font==2)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12,(int)str[i]);
+        else if(font==3)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18,(int)str[i]);
     }
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE);
@@ -76,7 +81,7 @@ void setup_viewport(GLFWwindow* window){
 
 void tekstur(){
     load_bmp("texture/bg_start.bmp", 0);
-    load_bmp("texture/ic_play.bmp", 1);
+    load_bmp("texture/bg_gameOver.bmp", 1);
 }
 
 void grid(){
@@ -138,25 +143,53 @@ void bgMenu(){
             glEnd();
         glEnd();
 
+}
+
+void bgGameOver(){
+    glColor3ub(255,255,255);
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture (GL_TEXTURE_2D, 1);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-pixelX, -pixelY, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(pixelX, -pixelY, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(pixelX, pixelY, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-pixelX, pixelY, 0);
+            glEnd();
+        glEnd();
+
     if(num%3!=0){
         glPushMatrix();
-            glTranslated(0,-7,0);
-            buttonEnter();
+            glTranslated(-4.5,-4,0);
+            glColor3ub(255,255,255);
+            renderBitmapString("Press Enter to Play Again",1);
         glPopMatrix();
 
         Sleep(750);
     }
 
     glPushMatrix();
-        glTranslated(-3.5,-10,0);
-        renderBitmapString("Press ESC to Exit");
+            glTranslated(-4.5,-6,0);
+            glColor3ub(255,255,255);
+            renderBitmapString("Score : ",3);
     glPopMatrix();
 
-}
+    glPushMatrix();
+            glTranslated(-4.5,-7.5,0);
+            glColor3ub(255,255,255);
+            renderBitmapString("High Score : ",3);
+    glPopMatrix();
 
-void bgGameOver(){
-    glColor3ub(255,0,0);
-    rectangle(weightDisplay,heightDisplay);
+    glPushMatrix();
+        glTranslated(-3,-11,0);
+        glColor3ub(255,50,50);
+        renderBitmapString("Press Esc to Exit",1);
+    glPopMatrix();
+
+
 }
 
 void bgGamePlay(){
@@ -176,11 +209,11 @@ void bgGamePlay(){
 void display(){
     tekstur();
     if(gameOver){
+        num++;
         bgGameOver();
         x=0;
     }else if(!play){
         bgMenu();
-        num++;
         x=0;
     }else{
         bgGamePlay();
