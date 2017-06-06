@@ -110,56 +110,38 @@ void grid(){
 	glEnd();
 }
 
-void buttonEnter(){
-    glColor3ub(255,255,255);
-    glEnable(GL_TEXTURE_2D);
-        glBindTexture (GL_TEXTURE_2D, 1);
-            glBegin(GL_POLYGON);
-                glTexCoord2f(0, 0);
-                glVertex3f(-pixelX, -1, 0);
-                glTexCoord2f(1, 0);
-                glVertex3f(pixelX, -1, 0);
-                glTexCoord2f(1, 1);
-                glVertex3f(pixelX, 1, 0);
-                glTexCoord2f(0, 1);
-                glVertex3f(-pixelX, 1, 0);
-            glEnd();
-    glEnd();
-}
-
 void bgMenu(){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
-        glBindTexture (GL_TEXTURE_2D, 0);
-            glBegin(GL_POLYGON);
-                glTexCoord2f(0, 0);
-                glVertex3f(-pixelX, -pixelY, 0);
-                glTexCoord2f(1, 0);
-                glVertex3f(pixelX, -pixelY, 0);
-                glTexCoord2f(1, 1);
-                glVertex3f(pixelX, pixelY, 0);
-                glTexCoord2f(0, 1);
-                glVertex3f(-pixelX, pixelY, 0);
-            glEnd();
+    glBindTexture (GL_TEXTURE_2D, 0);
+        glBegin(GL_POLYGON);
+            glTexCoord2f(0, 0);
+            glVertex3f(-pixelX, -pixelY, 0);
+            glTexCoord2f(1, 0);
+            glVertex3f(pixelX, -pixelY, 0);
+            glTexCoord2f(1, 1);
+            glVertex3f(pixelX, pixelY, 0);
+            glTexCoord2f(0, 1);
+            glVertex3f(-pixelX, pixelY, 0);
         glEnd();
-
+    glEnd();
 }
 
 void bgGameOver(){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
-        glBindTexture (GL_TEXTURE_2D, 1);
-            glBegin(GL_POLYGON);
-                glTexCoord2f(0, 0);
-                glVertex3f(-pixelX, -pixelY, 0);
-                glTexCoord2f(1, 0);
-                glVertex3f(pixelX, -pixelY, 0);
-                glTexCoord2f(1, 1);
-                glVertex3f(pixelX, pixelY, 0);
-                glTexCoord2f(0, 1);
-                glVertex3f(-pixelX, pixelY, 0);
-            glEnd();
+    glBindTexture (GL_TEXTURE_2D, 1);
+        glBegin(GL_POLYGON);
+            glTexCoord2f(0, 0);
+            glVertex3f(-pixelX, -pixelY, 0);
+            glTexCoord2f(1, 0);
+            glVertex3f(pixelX, -pixelY, 0);
+            glTexCoord2f(1, 1);
+            glVertex3f(pixelX, pixelY, 0);
+            glTexCoord2f(0, 1);
+            glVertex3f(-pixelX, pixelY, 0);
         glEnd();
+    glEnd();
 
     if(num%3!=0){
         glPushMatrix();
@@ -188,8 +170,6 @@ void bgGameOver(){
         glColor3ub(255,50,50);
         renderBitmapString("Press Esc to Exit",1);
     glPopMatrix();
-
-
 }
 
 void bgGamePlay(){
