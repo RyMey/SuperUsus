@@ -6,4 +6,4 @@ menggunakan OS Windows, requirements :
 - tambahkan glut :
   - file : https://w3.cs.jmu.edu/bernstdh/Web/common/help/cpp_mingw-glut-setup.php
   - cara : https://www.youtube.com/watch?v=sCtHJRoEbI8
-- tambahkan libmnw.a pada linker di setting compiler (libmnw.a ada di folder minGW>lib)
+- tambahkan libwinmm.a pada linker di setting compiler (libwinmm.a ada di folder MinGW>lib)
