@@ -32,6 +32,13 @@ void tekstur(){
     load_bmp("texture/ic_su.bmp", 6);
     load_bmp("texture/bg_play.bmp", 7);
     load_bmp("texture/virus1.bmp", 8);
+    load_bmp("texture/virus2.bmp", 9);
+    load_bmp("texture/virus3.bmp", 10);
+    load_bmp("texture/virus4.bmp", 11);
+    load_bmp("texture/virus5.bmp", 12);
+    load_bmp("texture/virus6.bmp", 13);
+    load_bmp("texture/virus7.bmp", 14);
+    load_bmp("texture/virus8.bmp", 15);
 }
 
 double getDigit(int no){
