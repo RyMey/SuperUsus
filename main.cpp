@@ -285,7 +285,7 @@ void display(){
         getScore();
     }
 
-    grid();
+    //grid();
 }
 
 int main(void){
