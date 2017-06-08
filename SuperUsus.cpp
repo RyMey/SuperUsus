@@ -5,8 +5,14 @@
 #include <windows.h>
 #include <conio.h>
 using namespace std;
-float ySuper = -6;
 float ySuperP = 11;
+
+struct peluru {
+    float x=-12;
+    float y=-6;
+};
+
+peluru pels[12];
 
 void SuperUsus(){
     glColor3ub(255,255,255);
@@ -25,20 +31,37 @@ void SuperUsus(){
     glEnd();
 }
 
-bool tembakSuper(float position){
-    if(ySuper<12){
-        glPushMatrix();
-            glTranslatef(position,ySuper,1);
-            glColor3ub(162,94,154);
-            circle(0.5);
-        glPopMatrix();
+bool tembak(float pos) {
+    int nextPel = -1;
+    for (int i=0;i<12;i++) {
+        if (pels[i].y == -6) {
+            nextPel = i;
+            break;
+        }
+    }
 
-        ySuper +=1.5;
-        Sleep(50);
-        return true;
-    }else{
-        ySuper=-6;
+    if (nextPel <= -1){
         return false;
+    }
+
+    pels[nextPel].y += 1;
+    pels[nextPel].x = pos;
+    return true;
+}
+
+void renderPeluru() {
+    Sleep(50);
+    for (int i=0;i<12;i++) {
+        if (pels[i].y > -6 && pels[i].y < 12) {
+            glPushMatrix();
+                glTranslatef(pels[i].x,pels[i].y,1);
+                glColor3ub(162,94,154);
+                circle(0.5);
+            glPopMatrix();
+            pels[i].y += 1.5;
+        }else{
+            pels[i].y = -6;
+        }
     }
 }
 

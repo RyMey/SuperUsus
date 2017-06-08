@@ -15,10 +15,8 @@
 #include "SuperUsus.cpp"
 using namespace std;
 float x=0; //untuk gerakan/posisi x milik super usus
-float xTembak; //untuk tembakan agar tetap lurus
 bool play = false;
 bool gameOver = false;
-bool tembak = false;
 int pixelX = 11;
 int pixelY = 12;
 int weightDisplay = 529;
@@ -51,11 +49,11 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
             mciSendString("stop sounds/main.mp3",NULL,NULL,NULL);
             mciSendString("stop sounds/over.mp3",NULL,NULL,NULL);
             mciSendString("play sounds/start.mp3",NULL,NULL,NULL);
-    }else if(key==GLFW_KEY_UP && action == GLFW_PRESS && !tembak) {
-            tembak = true;
-            xTembak = x;
-            score++;
-            mciSendString("play sounds/peluruSu.wav",NULL,NULL,NULL);
+    }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
+            if (tembak(x)){
+                score++;
+                PlaySound("sounds\\peluruSu.wav",NULL,SND_ASYNC);
+            }
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
 		if(x-1>=-pixelX+4)
 			x-=1;
@@ -271,9 +269,7 @@ void display(){
         x=0;
     }else{
         bgGamePlay();
-        if(tembak){
-          tembak = tembakSuper(xTembak);
-        }
+        renderPeluru();
         gerakSuper(x,-1);
 
         bgRectanglePlay(0);
