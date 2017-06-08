@@ -9,12 +9,13 @@
 #include <GL/glu.h>
 #include <sstream>
 #include <string>
+#include <time.h>
 #include "lib/tga.h"
 #include "lib/tga.c"
 #include "Util.cpp"
 #include "SuperUsus.cpp"
+#include "Virus.cpp"
 using namespace std;
-float x=0; //untuk gerakan/posisi x milik super usus
 bool play = false;
 bool gameOver = false;
 int pixelX = 11;
@@ -50,16 +51,16 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
             mciSendString("stop sounds/over.mp3",NULL,NULL,NULL);
             mciSendString("play sounds/start.mp3",NULL,NULL,NULL);
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
-            if (tembak(x)){
+            if (tembak(xSuperUsus)){
                 score++;
                 PlaySound("sounds\\peluruSu.wav",NULL,SND_ASYNC);
             }
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
-		if(x-1>=-pixelX+4)
-			x-=1;
+		if(xSuperUsus-1>=-pixelX+4)
+			xSuperUsus-=1;
 	}else if(key==GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-		if(x+1<=pixelX-4)
-			x+=1;
+		if(xSuperUsus+1<=pixelX-4)
+			xSuperUsus+=1;
 	}else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, GL_TRUE);
 	}else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS) {
@@ -134,18 +135,19 @@ void bgGameOver(){
     nyawa = 3;
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture (GL_TEXTURE_2D, 1);
-        glBegin(GL_POLYGON);
-            glTexCoord2f(0, 0);
-            glVertex3f(-pixelX, -pixelY, 0);
-            glTexCoord2f(1, 0);
-            glVertex3f(pixelX, -pixelY, 0);
-            glTexCoord2f(1, 1);
-            glVertex3f(pixelX, pixelY, 0);
-            glTexCoord2f(0, 1);
-            glVertex3f(-pixelX, pixelY, 0);
+        glBindTexture (GL_TEXTURE_2D, 1);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-pixelX, -pixelY, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(pixelX, -pixelY, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(pixelX, pixelY, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-pixelX, pixelY, 0);
+            glEnd();
         glEnd();
-    glEnd();
+    glDisable(GL_TEXTURE_2D);
     mciSendString("stop sounds/start.mp3",NULL,NULL,NULL);
     mciSendString("play sounds/over.mp3",NULL,NULL,NULL);
     if(num%3!=0){
@@ -190,34 +192,36 @@ void bgRectanglePlay(int i){
     else if(i==3)
         glBindTexture (GL_TEXTURE_2D, 5);
 
-        glBegin(GL_POLYGON);
-            glTexCoord2f(0, 0);
-            glVertex3f(-pixelX, -pixelY, 0);
-            glTexCoord2f(1, 0);
-            glVertex3f(-pixelX+2.5, -pixelY, 0);
-            glTexCoord2f(1, 1);
-            glVertex3f(-pixelX+2.5, pixelY, 0);
-            glTexCoord2f(0, 1);
-            glVertex3f(-pixelX, pixelY, 0);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-pixelX, -pixelY, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(-pixelX+2.5, -pixelY, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(-pixelX+2.5, pixelY, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-pixelX, pixelY, 0);
+            glEnd();
         glEnd();
-    glEnd();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void bgGamePlay(){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
-    glBindTexture (GL_TEXTURE_2D, 7);
-        glBegin(GL_POLYGON);
-            glTexCoord2f(0, 0);
-            glVertex3f(-pixelX, -pixelY, 0);
-            glTexCoord2f(1, 0);
-            glVertex3f(pixelX, -pixelY, 0);
-            glTexCoord2f(1, 1);
-            glVertex3f(pixelX, pixelY, 0);
-            glTexCoord2f(0, 1);
-            glVertex3f(-pixelX, pixelY, 0);
+        glBindTexture (GL_TEXTURE_2D, 7);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-pixelX, -pixelY, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(pixelX, -pixelY, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(pixelX, pixelY, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-pixelX, pixelY, 0);
+            glEnd();
         glEnd();
-    glEnd();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void getScore(){
@@ -261,17 +265,17 @@ void display(){
         num++;
         play = false;
         bgGameOver();
-        x=0;
+        xSuperUsus=0;
     }else if(!play){
         play = false;
         gameOver = false;
         bgMenu();
-        x=0;
+        xSuperUsus=0;
     }else{
         bgGamePlay();
+        renderVirus(score);
         renderPeluru();
-        gerakSuper(x,-1);
-
+        gerakSuper(xSuperUsus);
         bgRectanglePlay(0);
         glPushMatrix();
             glTranslatef(2*pixelX-2.5,0,0);
@@ -281,12 +285,13 @@ void display(){
         getScore();
     }
 
-    //grid();
+    grid();
 }
 
 int main(void){
     GLFWwindow* window;
     if (!glfwInit()) exit(EXIT_FAILURE);
+    srand (time(NULL));
 
     window = glfwCreateWindow(weightDisplay, heightDisplay, "Super Usus", NULL, NULL);
 
@@ -307,8 +312,6 @@ int main(void){
     while (!glfwWindowShouldClose(window))
     {
         setup_viewport(window);
-
-        grid();
         display();
 
         glfwSwapBuffers(window);

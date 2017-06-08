@@ -6,33 +6,48 @@
 #include <conio.h>
 using namespace std;
 float yVirus = 11;
+int maksVirus = 4;
 
-void Virus(float size){
-    glColor3ub(255,0,0);
-    circle(size);
+struct Virus{
+    float x=(rand()%12)-6;
+    float y=(rand()%5)+11;
+};
+
+Virus virus[8];
+
+void createVirus(){
+    glColor3ub(255,255,255);
+    glEnable(GL_TEXTURE_2D);
+        glBindTexture (GL_TEXTURE_2D, 8);
+            glBegin(GL_POLYGON);
+                glTexCoord2f(0, 0);
+                glVertex3f(-2, -2, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(2, -2, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(2, 2, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(-2, 2, 0);
+            glEnd();
+        glEnd();
+    glDisable(GL_TEXTURE_2D);
 }
 
-bool tembakVirus(float position){
-    if(yVirus<12){
-        glPushMatrix();
-            glTranslatef(position,yVirus,1);
-            circle(0.5);
-        glPopMatrix();
-
-        yVirus +=1.5;
-        Sleep(50);
-        return true;
-    }else{
-        yVirus=-11;
-        return false;
+void renderVirus(int score) {
+    if(maksVirus<8)
+        maksVirus = 4 + (score/20);
+    for (int i=0;i<maksVirus;i++) {
+        if (virus[i].y > -12 && virus[i].y < 12) {
+            glPushMatrix();
+                glTranslated(virus[i].x,virus[i].y,1);
+                createVirus();
+            glPopMatrix();
+            virus[i].y -= 0.05 *(score/30) + 0.25;
+        }else{
+            virus[i].y = (rand()%4)+11;
+            virus[i].x = (rand()%12)-6;
+        }
     }
 }
 
-void addVirus(float x){
-    glPushMatrix();
-            glTranslatef(x,yVirus+1.5,1);
-            Virus(1.5);
-    glPopMatrix();
-    yVirus--;
-}
 
