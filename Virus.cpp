@@ -15,10 +15,10 @@ struct Virus{
 
 Virus virus[8];
 
-void createVirus(){
+void createVirus( int x){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
-        glBindTexture (GL_TEXTURE_2D, 8);
+        glBindTexture (GL_TEXTURE_2D, x);
             glBegin(GL_POLYGON);
                 glTexCoord2f(0, 0);
                 glVertex3f(-2, -2, 0);
@@ -40,7 +40,7 @@ void renderVirus(int score) {
         if (virus[i].y > -12 && virus[i].y < 12) {
             glPushMatrix();
                 glTranslated(virus[i].x,virus[i].y,1);
-                createVirus();
+                createVirus(i+8);
             glPopMatrix();
             virus[i].y -= 0.05 *(score/30) + 0.25;
         }else{
