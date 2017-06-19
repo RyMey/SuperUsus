@@ -7,6 +7,7 @@
 using namespace std;
 float yVirus = 11;
 int maksVirus = 4;
+int waktuTembakVirus = 0;
 
 struct Virus{
     float x=(rand()%12)-6;
@@ -14,6 +15,7 @@ struct Virus{
 };
 
 Virus virus[8];
+Peluru pelv[4];
 
 void createVirus( int x){
     glColor3ub(255,255,255);
@@ -49,5 +51,6 @@ void renderVirus(int score) {
         }
     }
 }
+
 
 
