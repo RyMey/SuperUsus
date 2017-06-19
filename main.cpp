@@ -282,6 +282,11 @@ void display(){
         }
     }
 
+    if(!play){
+        inisiateVirus();
+        inisiatePeluru();
+    }
+
     //grid();
 }
 

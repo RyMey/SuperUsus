@@ -17,6 +17,13 @@ struct Peluru {
 
 Peluru pels[12];
 
+void inisiatePeluru(){
+    for(int i=0;i<12;i++){
+        pels[i].x = -12;
+        pels[i].y = minTembakan;
+    }
+}
+
 void createSuperUsus(){
     glColor3ub(255,255,255);
     glEnable(GL_TEXTURE_2D);
