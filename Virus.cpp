@@ -8,10 +8,17 @@ using namespace std;
 float yVirus = 11;
 int maksVirus = 4;
 int score = 0;
+float xpel,ypel = 12;
+
+struct PeluruVirus{
+    float x=15;
+    float y=-12;
+};
 
 struct Virus{
     float x=(rand()%12)-6;
     float y=(rand()%5)+11;
+    PeluruVirus pelv;
 };
 
 Virus virus[8];
@@ -66,16 +73,35 @@ bool isVirusNotCrossSuper(float x, float y){
         return true;
 }
 
+void tenbakVirus(){
+}
+
 void renderVirus(int score) {
     if(maksVirus<8)
         maksVirus = 4 + (score/20);
     for (int i=0;i<maksVirus;i++) {
         if (virus[i].y > -12 && virus[i].y < 12 && isVirusNotCrossSuper(virus[i].x,virus[i].y) && !isVirusKenaPeluru(virus[i].x,virus[i].y)) {
+            if(virus[i].pelv.y<=-12){
+                virus[i].pelv.y = virus[i].y-2;
+                virus[i].pelv.x = virus[i].x;
+            }else
+                virus[i].pelv.y -= 0.1 *(score/30) + 0.1;
+
+            cout<<virus[i].pelv.y<<endl;
+
+            glPushMatrix();
+                glTranslated(virus[i].pelv.x,virus[i].pelv.y,1);
+                glColor3ub(230,22,61);
+                circle(0.4);
+            glPopMatrix();
+
+
             glPushMatrix();
                 glTranslated(virus[i].x,virus[i].y,1);
                 createVirus(i+8);
             glPopMatrix();
-            virus[i].y -= 0.05 *(score/30) + 0.05;;
+
+            virus[i].y -= 0.05 *(score/30) + 0.05;
         }else{
             if(!isVirusNotCrossSuper(virus[i].x,virus[i].y))
                 setNyawa(getNyawa()-1);

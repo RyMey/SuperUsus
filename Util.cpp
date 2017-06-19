@@ -1,5 +1,6 @@
 #include <string>
 using namespace std;
+
 void renderBitmapString(string str,int font){
     int len;
     glRasterPos2i(0,0);
