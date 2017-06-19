@@ -10,6 +10,7 @@ float xSuperUsus=0; //untuk gerakan/posisi x milik super usus
 float minTembakan = -9;
 float rSuper=1.5;
 int nyawa = 3;
+
 struct Peluru {
     float x=-12;
     float y=minTembakan;
