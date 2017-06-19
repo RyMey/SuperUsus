@@ -1,6 +1,7 @@
 # SuperUsus
 <p align="center">
   <img src="https://github.com/RyMey/SuperUsus/blob/master/screenshoot/bgMenu.png" width="30%" />
+  <img src="https://github.com/RyMey/SuperUsus/blob/master/screenshoot/bgPlay.png" width="30%" />
   <img src="https://github.com/RyMey/SuperUsus/blob/master/screenshoot/bgGameOver.png" width="30%" />
 </p>
 
