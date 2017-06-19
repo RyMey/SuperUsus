@@ -47,7 +47,7 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 
             mciSendString("stop sounds/main.mp3",NULL,NULL,NULL);
             mciSendString("stop sounds/over.mp3",NULL,NULL,NULL);
-            mciSendString("play sounds/start.mp3",NULL,NULL,NULL);
+            mciSendString("play sounds/start.mp3 repeat",NULL,NULL,NULL);
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
             if (tembak(xSuperUsus)){
                // score++;
@@ -122,7 +122,7 @@ void bgMenu(){
             glEnd();
         glEnd();
     glDisable(GL_TEXTURE_2D);
-    mciSendString("play sounds/main.mp3",NULL,NULL,NULL);
+    mciSendString("play sounds/main.mp3 repeat",NULL,NULL,NULL);
 }
 
 void bgGameOver(){
@@ -143,7 +143,7 @@ void bgGameOver(){
         glEnd();
     glDisable(GL_TEXTURE_2D);
     mciSendString("stop sounds/start.mp3",NULL,NULL,NULL);
-    mciSendString("play sounds/over.mp3",NULL,NULL,NULL);
+    mciSendString("play sounds/over.mp3 repeat",NULL,NULL,NULL);
     if(num%3!=0){
         glPushMatrix();
             glTranslated(-4.5,-4,0);
