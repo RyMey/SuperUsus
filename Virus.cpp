@@ -7,11 +7,7 @@
 using namespace std;
 float yVirus = 11;
 int maksVirus = 4;
-<<<<<<< HEAD
-int waktuTembakVirus = 0;
-=======
 int score = 0;
->>>>>>> 363887a8bdd139415c1192cb7211d4ff8c47453e
 
 struct Virus{
     float x=(rand()%12)-6;
@@ -19,7 +15,6 @@ struct Virus{
 };
 
 Virus virus[8];
-Peluru pelv[4];
 
 void createVirus(int x){
     glColor3ub(255,255,255);
@@ -90,8 +85,9 @@ void renderVirus(int score) {
             glPopMatrix();
             virus[i].y -= 0.05 *(score/30) + 0.15;;
         }else{
-            if(!isVirusNotCrossSuper(virus[i].x,virus[i].y) || virus[i].y<=-12)
+            if(!isVirusNotCrossSuper(virus[i].x,virus[i].y) || virus[i].y<=-12){
                 setNyawa(getNyawa()-1);
+            }
 
             virus[i].y = (rand()%4)+11;
             virus[i].x = (rand()%12)-6;

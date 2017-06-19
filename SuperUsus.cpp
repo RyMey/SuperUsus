@@ -8,12 +8,8 @@ using namespace std;
 float ySuperUsus = 11;
 float xSuperUsus=0; //untuk gerakan/posisi x milik super usus
 float minTembakan = -9;
-<<<<<<< HEAD
-
-=======
 float rSuper=1.5;
 int nyawa = 3;
->>>>>>> 363887a8bdd139415c1192cb7211d4ff8c47453e
 struct Peluru {
     float x=-12;
     float y=minTembakan;
