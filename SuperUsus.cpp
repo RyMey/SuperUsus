@@ -8,6 +8,8 @@ using namespace std;
 float ySuperUsus = 11;
 float xSuperUsus=0; //untuk gerakan/posisi x milik super usus
 float minTembakan = -9;
+float rSuper=1.5;
+int nyawa = 3;
 struct Peluru {
     float x=-12;
     float y=minTembakan;
@@ -21,16 +23,24 @@ void createSuperUsus(){
         glBindTexture (GL_TEXTURE_2D, 6);
             glBegin(GL_POLYGON);
                 glTexCoord2f(0, 0);
-                glVertex3f(-1.5, -ySuperUsus, 0);
+                glVertex3f(-rSuper, -ySuperUsus, 0);
                 glTexCoord2f(1, 0);
-                glVertex3f(1.5, -ySuperUsus, 0);
+                glVertex3f(rSuper, -ySuperUsus, 0);
                 glTexCoord2f(1, 1);
-                glVertex3f(1.5, -ySuperUsus+4, 0);
+                glVertex3f(rSuper, -ySuperUsus+4, 0);
                 glTexCoord2f(0, 1);
-                glVertex3f(-1.5,-ySuperUsus+4, 0);
+                glVertex3f(-rSuper,-ySuperUsus+4, 0);
             glEnd();
         glEnd();
     glDisable(GL_TEXTURE_2D);
+}
+
+float getXSuper(){
+    return xSuperUsus;
+}
+
+float getRSuper(){
+    return rSuper;
 }
 
 bool tembak(float pos) {
@@ -64,6 +74,14 @@ void renderPeluru() {
             pels[i].y = minTembakan;
         }
     }
+}
+
+void setNyawa(int n){
+    nyawa = n;
+}
+
+int getNyawa(){
+    return nyawa;
 }
 
 void gerakSuper(float x){

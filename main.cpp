@@ -26,7 +26,6 @@ int num=0; //untuk kedip2 "press enter" di gameOver
 int score = 0;
 int highScore = 0;
 char buffer[50];
-int nyawa = 3;
 FILE *highScoreFile;
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
@@ -63,10 +62,6 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 			xSuperUsus+=1;
 	}else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, GL_TRUE);
-	}else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS) {
-		nyawa--;
-		if(nyawa==0)
-            gameOver = true;
 	}
 }
 
@@ -283,6 +278,9 @@ void display(){
         glPopMatrix();
 
         getScore();
+        if(nyawa==0){
+            gameOver = true;
+        }
     }
 
     //grid();
