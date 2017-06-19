@@ -71,6 +71,14 @@ bool isVirusNotCrossSuper(float x, float y){
         return true;
 }
 
+void inisiateVirus(){
+    maksVirus = 4;
+    for(int i=0;i<8;i++){
+        virus[i].x = (rand()%12)-6;
+        virus[i].y = (rand()%12)+11;
+    }
+}
+
 void renderVirus(int score) {
     if(maksVirus<8)
         maksVirus = 4 + (score/20);
@@ -80,9 +88,9 @@ void renderVirus(int score) {
                 glTranslated(virus[i].x,virus[i].y,1);
                 createVirus(i+8);
             glPopMatrix();
-            virus[i].y -= 0.05 *(score/30) + 0.05;;
+            virus[i].y -= 0.05 *(score/30) + 0.15;;
         }else{
-            if(!isVirusNotCrossSuper(virus[i].x,virus[i].y))
+            if(!isVirusNotCrossSuper(virus[i].x,virus[i].y) || virus[i].y<=-12)
                 setNyawa(getNyawa()-1);
 
             virus[i].y = (rand()%4)+11;
