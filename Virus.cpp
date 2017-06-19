@@ -47,6 +47,7 @@ bool isVirusKenaPeluru(float x, float y){
             pels[i].y = minTembakan;
             score++;
             aw = true;
+            mciSendString("play sounds/aw.wav",NULL,NULL,NULL);
         }
     }
 
