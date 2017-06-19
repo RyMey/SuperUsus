@@ -88,6 +88,7 @@ void renderVirus(int score) {
         }else{
             if(!isVirusNotCrossSuper(virus[i].x,virus[i].y) || virus[i].y<=-12){
                 setNyawa(getNyawa()-1);
+                mciSendString("play sounds/aduh.wav",NULL,NULL,NULL);
             }
 
             virus[i].y = (rand()%4)+11;
