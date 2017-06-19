@@ -7,6 +7,7 @@
 using namespace std;
 float yVirus = 11;
 int maksVirus = 4;
+int score = 0;
 
 struct Virus{
     float x=(rand()%12)-6;
@@ -33,6 +34,25 @@ void createVirus(int x){
     glDisable(GL_TEXTURE_2D);
 }
 
+bool isVirusKenaPeluru(float x, float y){
+    bool aw = false; //virus ketembak
+    float batasAtas=(x+2),batasBawah=(x-2);
+    if((x+2)<(x-2)){
+        batasAtas = (x+2);
+        batasBawah = (x-2);
+    }
+
+    for(int i=0;i<12;i++){
+        if(y-2<=pels[i].y && batasBawah<=pels[i].x && pels[i].x<=batasAtas){
+            pels[i].y = minTembakan;
+            score++;
+            aw = true;
+        }
+    }
+
+    return aw;
+}
+
 bool isVirusNotCrossSuper(float x, float y){
     float batasAtas=(x+2),batasBawah=(x-2);
     if((x+2)<(x-2)){
@@ -50,12 +70,12 @@ void renderVirus(int score) {
     if(maksVirus<8)
         maksVirus = 4 + (score/20);
     for (int i=0;i<maksVirus;i++) {
-        if (virus[i].y > -12 && virus[i].y < 12 && isVirusNotCrossSuper(virus[i].x,virus[i].y)) {
+        if (virus[i].y > -12 && virus[i].y < 12 && isVirusNotCrossSuper(virus[i].x,virus[i].y) && !isVirusKenaPeluru(virus[i].x,virus[i].y)) {
             glPushMatrix();
                 glTranslated(virus[i].x,virus[i].y,1);
                 createVirus(i+8);
             glPopMatrix();
-            virus[i].y -= 0.15 *((score/30) + 0.25);
+            virus[i].y -= 0.05 *(score/30) + 0.05;;
         }else{
             if(!isVirusNotCrossSuper(virus[i].x,virus[i].y))
                 setNyawa(getNyawa()-1);
