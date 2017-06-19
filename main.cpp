@@ -23,10 +23,8 @@ int pixelY = 12;
 int weightDisplay = 529;
 int heightDisplay = 600;
 int num=0; //untuk kedip2 "press enter" di gameOver
-int score = 0;
 int highScore = 0;
 char buffer[50];
-int nyawa = 3;
 FILE *highScoreFile;
 
 void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int mods){
@@ -52,7 +50,7 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
             mciSendString("play sounds/start.mp3 repeat",NULL,NULL,NULL);
     }else if(key==GLFW_KEY_UP && action == GLFW_PRESS) {
             if (tembak(xSuperUsus)){
-                score++;
+               // score++;
                 PlaySound("sounds\\peluruSu.wav",NULL,SND_ASYNC);
             }
 	}else if(key==GLFW_KEY_LEFT && action == GLFW_PRESS) {
@@ -63,10 +61,6 @@ void processNormalKeys(GLFWwindow* window, int key, int scancode, int action,int
 			xSuperUsus+=1;
 	}else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
         glfwSetWindowShouldClose(window, GL_TRUE);
-	}else if(key==GLFW_KEY_DOWN && action == GLFW_PRESS) {
-		nyawa--;
-		if(nyawa==0)
-            gameOver = true;
 	}
 }
 
@@ -283,6 +277,9 @@ void display(){
         glPopMatrix();
 
         getScore();
+        if(nyawa==0){
+            gameOver = true;
+        }
     }
 
     //grid();
